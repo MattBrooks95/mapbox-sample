@@ -4,7 +4,9 @@ import mapboxgl from "mapbox-gl";
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-mapboxgl.accessToken = import.meta.env.MAPBOX_TOKEN;
+//specify VITE_MAPBOX_TOKEN in the .env file
+const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
+mapboxgl.accessToken = mapboxToken;
 
 function App() {
 	const [count, setCount] = useState(0)
