@@ -1,0 +1,19 @@
+.gps-info {
+    position: absolute;
+    left: 0;
+    bottom: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.gps-info-contents {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    justify-contents: center;
+    align-items: center;
+    padding: 6px;
+}

@@ -7,6 +7,7 @@ import './App.css'
 import { Story } from './components/Story';
 import { activateTag, getPlaces, getTags, initState, selectPlace, State } from './logic/State';
 import Button from '@mui/material/Button/Button';
+import { GpsInfo } from './components/GpsInfo';
 
 //specify VITE_MAPBOX_TOKEN in the .env file
 const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -22,6 +23,7 @@ function App() {
 	const [state, setState] = useState<State>(initState(data.places));
 
 	useEffect(() => {
+		return;
 		if (map.current !== null) return; // initialize map only once
 		if (mapContainer.current !== null) {
 			map.current = new mapboxgl.Map({
@@ -35,15 +37,13 @@ function App() {
 	return (
 		<div className="App">
 			<div className="map-container">
-				<div className="gps-info">
-					<div className="gps-info-contents thin-gray-background">
-						<Button variant="contained">Prev</Button>
-						<div>longitude:{lng}</div>
-						<div>latitude:{lat}</div>
-						<div>zoom:{9}</div>
-						<Button variant="contained">Next</Button>
-					</div>
-				</div>
+				<GpsInfo
+					longitude={lng}
+					latitude={lat}
+					zoom={zoom}
+					nextDisabled={false}
+					prevDisabled={false}
+				></GpsInfo>
 				<div id="map" className="map" ref={mapContainer}>
 				</div>
 			</div>
