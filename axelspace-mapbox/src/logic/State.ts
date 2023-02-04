@@ -10,6 +10,7 @@ export {
     deactivateTag,
     activateTag,
     selectPlace,
+    getActiveTags,
 }
 
 type State = {
@@ -58,7 +59,7 @@ function getActiveTags(state: State): Tag[] {
 }
 
 function activateTag(state: State, tagName: string): State {
-    const newTags = this.availableTags.map(tag => {
+    const newTags = state.tags.map(tag => {
         if (tag.name === tagName) {
             return {
                 name: tagName,
