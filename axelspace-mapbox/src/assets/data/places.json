@@ -1,0 +1,38 @@
+{
+    "places": [
+        {
+            "name": "Lancaster, OH",
+            "years": [1995],
+            "tags": ["childhood", "education"]
+        },
+        {
+            "name": "Logan, OH",
+            "years": [2006, 2014],
+            "tags": ["childhood", "education"]
+        },
+        {
+            "name": "Athens, OH",
+            "years": [2014, 2018],
+            "tags": ["education", "career"]
+        }, {
+            "name": "Hilliard, OH",
+            "years": [2018, 2019],
+            "tags": ["adult", "career"]
+        },
+        {
+            "name": "Tokyo, Japan",
+            "years": [2019],
+            "tags": ["adult", "career"]
+        },
+        {
+            "name": "Kyoto, Japan",
+            "years": [2019, 2021],
+            "tags": ["adult", "career"]
+        },
+        {
+            "name": "Osaka, Japan",
+            "years": [2021, 2023],
+            "tags": ["adult", "career"]
+        }
+    ]
+}
