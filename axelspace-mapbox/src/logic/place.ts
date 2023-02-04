@@ -10,6 +10,7 @@ type Place = {
 	tags: string[];
 	years: number[];
 	description: string;
+	id: number;
 };
 
 type Tag = {
