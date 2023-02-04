@@ -1,6 +1,6 @@
 .place-label-container {
     display: flex;
     flex-direction: row;
-    justify-content: middle;
+    justify-content: center;
     gap: 8px;
 }

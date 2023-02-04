@@ -14,8 +14,8 @@ mapboxgl.accessToken = mapboxToken;
 function App() {
 	const mapContainer = useRef(null);
 	const map = useRef<mapboxgl.Map | null>(null);
-	const [lng, setLng] = useState(39);
-	const [lat, setLat] = useState(82);
+	const [lng, setLng] = useState(-70.9);
+	const [lat, setLat] = useState(42.35);
 	const [zoom, setZoom] = useState(9);
 
 	const [state, setState] = useState<State>(initState(data.places));
@@ -33,9 +33,13 @@ function App() {
 	}, []);
 	return (
 		<div className="App">
-			<div className="map">
-				<div>longitude:{lng} latitude:{lat} zoom:{9}</div>
-				<div id="map" ref={mapContainer}>
+			<div className="map-container">
+				<div className="gps-info">
+					<div>longitude:{lng}</div>
+					<div>latitude:{lat}</div>
+					<div>zoom:{9}</div>
+				</div>
+				<div id="map" className="map" ref={mapContainer}>
 				</div>
 			</div>
 			<Story

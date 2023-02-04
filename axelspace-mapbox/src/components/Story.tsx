@@ -20,7 +20,7 @@ function Story(props: StoryProps) {
         : undefined;
     return (<div className="story-layout">
         <div className="story-right-tray">
-            <div>
+            <div className="places-container">
                 {props.places.map((place) => {
                     return (<PlaceLabel
                         years={place.years}
@@ -30,8 +30,12 @@ function Story(props: StoryProps) {
                     ></PlaceLabel>);
                 })}
             </div>
-            {<textarea className="description-box">
-            {activePlace !== undefined ? activePlace.description : ""}
+            <div className="tags-container">
+            {props.tags.map(t => <button disabled={!t.active}>{t.name}</button>)}
+            </div>
+            {<textarea className="description-box"
+                value={activePlace !== undefined ? activePlace.description : ""}
+                >
             </textarea>}
         </div>
     </div>)
