@@ -9,6 +9,11 @@
         - if you add a .envrc file with the contents "use_nix", [direnv](https://direnv.net/) can be used to automatically activate the development environment when you cd into this directory
     - if you want to do a manual global install of NodeJs, we are using v18
 
+## Unit Tests
+- in the axelspace project directory, you can run the tests with "$npm run test"
+    - I learned how to use [Vitest](https://vitest.dev/)
 
 ### References
 - using mapbox: https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
+- Vitest setup: https://vitest.dev/guide/
+    - basic test config: https://github.com/vitest-dev/vitest/tree/main/examples/basic
