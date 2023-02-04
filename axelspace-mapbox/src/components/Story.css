@@ -8,7 +8,7 @@
 
 .story-right-tray {
     min-width: 320px;
-    background-color: yellow;
+    height: fit-content;
     display: flex;
     gap: 8px;
     padding: 6px;

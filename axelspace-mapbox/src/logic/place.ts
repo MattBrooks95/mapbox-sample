@@ -15,5 +15,6 @@ type Place = {
 
 type Tag = {
 	name: string;
+	/** whether or not the filtering is active */
 	active: boolean;
 }

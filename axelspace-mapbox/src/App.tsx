@@ -6,6 +6,7 @@ import data from "../src/assets/data/places.json";
 import './App.css'
 import { Story } from './components/Story';
 import { activateTag, getPlaces, getTags, initState, selectPlace, State } from './logic/State';
+import Button from '@mui/material/Button/Button';
 
 //specify VITE_MAPBOX_TOKEN in the .env file
 const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -35,9 +36,13 @@ function App() {
 		<div className="App">
 			<div className="map-container">
 				<div className="gps-info">
-					<div>longitude:{lng}</div>
-					<div>latitude:{lat}</div>
-					<div>zoom:{9}</div>
+					<div className="gps-info-contents thin-gray-background">
+						<Button variant="contained">Prev</Button>
+						<div>longitude:{lng}</div>
+						<div>latitude:{lat}</div>
+						<div>zoom:{9}</div>
+						<Button variant="contained">Next</Button>
+					</div>
 				</div>
 				<div id="map" className="map" ref={mapContainer}>
 				</div>

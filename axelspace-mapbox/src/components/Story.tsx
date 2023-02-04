@@ -2,6 +2,7 @@ import { Place, Tag } from "../logic/place";
 import { PlaceLabel } from "./PlaceLabel";
 
 import "./Story.css"
+import "../shared.css"
 
 export {
     Story
@@ -19,7 +20,7 @@ function Story(props: StoryProps) {
         ? props.places[props.activePlaceIndex]
         : undefined;
     return (<div className="story-layout">
-        <div className="story-right-tray">
+        <div className="story-right-tray thin-gray-background">
             <div className="places-container">
                 {props.places.map((place) => {
                     return (<PlaceLabel
@@ -31,7 +32,7 @@ function Story(props: StoryProps) {
                 })}
             </div>
             <div className="tags-container">
-            {props.tags.map(t => <button disabled={!t.active}>{t.name}</button>)}
+            {props.tags.map(t => <button disabled={t.active}>{t.name}</button>)}
             </div>
             {<textarea className="description-box"
                 value={activePlace !== undefined ? activePlace.description : ""}
