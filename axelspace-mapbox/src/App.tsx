@@ -25,25 +25,31 @@ function App() {
 	const [state, setState] = useState<State>(initState(data.places));
 
 	const isNextButtonDisabled = () => {
-		return state.selectedPlaceId === undefined || state.origPlaces.length === 0 || state.selectedPlaceId >= state.origPlaces.length - 1;
+		if (state.selectedPlaceIndex === undefined) return true;
+		const visablePlaces = getPlaces(state);
+		const nextVisablePlace = getPlace(state, state.selectedPlaceIndex + 1);
+		return state.selectedPlaceIndex === undefined || visablePlaces.length === 0 || nextVisablePlace === undefined;
 	}
 
 	const isPrevButtonDisabled = () => {
-		return state.selectedPlaceId === undefined || state.origPlaces.length === 0 || state.selectedPlaceId === 0;
+		if (state.selectedPlaceIndex === undefined) return true;
+		const visablePlaces = getPlaces(state);
+		const nextVisablePlace = getPlace(state, state.selectedPlaceIndex - 1);
+		return state.selectedPlaceIndex === undefined || visablePlaces.length === 0 || nextVisablePlace === undefined;
 	}
 
 	//when the selected place id is updated, update the state variables
 	//for longitude, latitude and zoom to match the new location
 	useEffect(() => {
-		if (state.selectedPlaceId === undefined) return;
-		console.log(`new selected place id:${state.selectedPlaceId}`);
-		const newPlace = getPlace(state, state.selectedPlaceId);
+		if (state.selectedPlaceIndex === undefined) return;
+		console.log(`new selected place id:${state.selectedPlaceIndex}`);
+		const newPlace = getPlace(state, state.selectedPlaceIndex);
 		console.log(newPlace);
 		if (newPlace !== undefined && map.current !== null) {
 			setCenter([newPlace.longitude, newPlace.latitude]);
 			setZoom(defaultZoom);
 		}
-	}, [state.selectedPlaceId]);
+	}, [state.selectedPlaceIndex]);
 
 	//when the longitude or latitude changes, propogate that change
 	//to the mapbox object
@@ -97,7 +103,7 @@ function App() {
 				places={getPlaces(state)}
 				tags={getTags(state)}
 				onSelectPlace={(id: number) => setState(selectPlace(state, id))}
-				activePlaceIndex={state.selectedPlaceId}
+				activePlaceIndex={state.selectedPlaceIndex}
 				onSelectTag={(name: string) => setState(toggleTag(state, name))}
 			></Story>
 			{debugState && <textarea style={{position: "absolute", top: 0, minHeight: "300px", minWidth: "400px"}}value={JSON.stringify(state)}></textarea>}

@@ -19,7 +19,7 @@ export {
 type State = {
     origPlaces: Place[];
     tags: Tag[];
-    selectedPlaceId?: number;
+    selectedPlaceIndex?: number;
 }
 
 function initState(places: Partial<Place>[]): State {
@@ -42,7 +42,7 @@ function initState(places: Partial<Place>[]): State {
     return {
         origPlaces,
         tags,
-        selectedPlaceId: origPlaces.length === 0 ? undefined : origPlaces[0].id,
+        selectedPlaceIndex: origPlaces.length === 0 ? undefined : origPlaces[0].id,
     }
 }
 
@@ -95,23 +95,25 @@ function toggleTag(state: State, tagName: string): State {
 //    return Object.assign({}, state, {tags: newTags});
 //}
 
-function selectPlace(state: State, placeId: number): State {
-    const newState = Object.assign({}, state, {selectedPlaceId: placeId});
+function selectPlace(state: State, nextPlaceIndex: number): State {
+    const newState = Object.assign({}, state, {selectedPlaceIndex: nextPlaceIndex});
     return newState;
 }
 
 function incSelectedPlace(state: State): State {
-    if (state.selectedPlaceId === undefined) return state;
-    if (state.selectedPlaceId + 1 >= state.origPlaces.length) return state;
-    return selectPlace(state, state.selectedPlaceId + 1);
+    if (state.selectedPlaceIndex === undefined) return state;
+    const nextPlace = getPlace(state, state.selectedPlaceIndex + 1);
+    if (nextPlace === undefined) return state;
+    return selectPlace(state, state.selectedPlaceIndex + 1);
 }
 
 function decSelectedPlace(state: State): State {
-    if (state.selectedPlaceId === undefined) return state;
-    if (state.selectedPlaceId - 1 < 0) return state;
-    return selectPlace(state, state.selectedPlaceId - 1);
+    if (state.selectedPlaceIndex === undefined) return state;
+    const nextPlace = getPlace(state, state.selectedPlaceIndex - 1);
+    if (nextPlace === undefined) return state;
+    return selectPlace(state, state.selectedPlaceIndex - 1);
 }
 
 function getPlace(state: State, id: number): Place | undefined {
-    return state.origPlaces.find(place => place.id === id);
+    return getPlaces(state).find(place => place.id === id);
 }
