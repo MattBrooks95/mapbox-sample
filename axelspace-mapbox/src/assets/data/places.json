@@ -5,48 +5,55 @@
             "years": [1995],
             "tags": ["childhood"],
             "latitude": 39.71423,
-            "longitude": -82.60218
+            "longitude": -82.60218,
+            "description": "I was born in Lancaster, but I don't remember it very much. I lived in the nearby town of Sugar Grove as well. I am excluding Lancaster from the list of places where I was going to school, for the sake of a test case. I actually did do Elementary school at a school called Berne Union."
         },
         {
             "name": "Logan, OH",
             "years": [2006, 2014],
             "tags": ["childhood", "education"],
             "latitude": 39.51698,
-            "longitude": -82.37548
+            "longitude": -82.37548,
+            "description": "My family moved to Logan, Ohio because they had classes for 'gifted' students and I had good grades."
         },
         {
             "name": "Athens, OH",
             "years": [2014, 2018],
             "tags": ["education", "career"],
             "latitude": 39.32628,
-            "longitude": -82.10702
+            "longitude": -82.10702,
+            "description": "A love Athens and Ohio University. I studied Computer Science and Japanese here, and it was when I started going to the gym. Lost a lot of weight."
         }, {
             "name": "Hilliard, OH",
             "years": [2018, 2019],
             "tags": ["adult", "career"],
             "latitude": 40.00131,
-            "longitude": -83.10944
+            "longitude": -83.10944,
+            "description": "First job out of college was in Hilliard, working at a company called eRetailing. Wrote a bunch of Perl and Ruby. I was able to learn alot from the senior engineers and tech lead there. I miss them."
         },
         {
             "name": "Tokyo, Japan",
             "years": [2019],
             "tags": ["adult", "career"],
             "latitude": 35.72,
-            "longitude": 139.63
+            "longitude": 139.63,
+            "description": "Finally got a job in Japan, moved to Tokyo for on the job training in business manners and Japanese. Lived in a share house in Saginomiya. Made some great friends."
         },
         {
             "name": "Kyoto, Japan",
             "years": [2019, 2021],
             "tags": ["adult", "career"],
             "latitude": 34.99,
-            "longitude": 135.75
+            "longitude": 135.75,
+            "description": "Moved to Kyoto to work on a project at KCCS. Things didn't work out and the temp agency's contract fell through, so I ended up working at Applied Technologies in Osaka."
         },
         {
             "name": "Osaka, Japan",
             "years": [2021, 2023],
             "tags": ["adult", "career"],
             "latitude": 34.70,
-            "longitude": 135.48
+            "longitude": 135.48,
+            "description": "I moved from Kyoto to Osaka, because Kyoto grew to be boring and I wanted to live closer to the office."
         }
     ]
 }
