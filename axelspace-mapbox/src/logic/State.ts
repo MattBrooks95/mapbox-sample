@@ -7,7 +7,6 @@ export {
     initState,
     getPlaces,
     getTags,
-//    deactivateTag,
     toggleTag,
     selectPlace,
     getActiveTags,
@@ -51,6 +50,10 @@ function initState(places: Partial<Place>[]): State {
     }
 }
 
+/**
+* get the list of places, which will be filtered by the currently selected tags
+* and sorted by the current sorting method
+**/
 function getPlaces(state: State): Place[] {
     const activeTags = getActiveTags(state).map(t => t.name);
     const availablePlaces = [...state.origPlaces].filter(place => {
@@ -80,6 +83,12 @@ function getActiveTags(state: State): Tag[] {
     return getTags(state).filter(tag => tag.active);
 }
 
+/**
+* toggle tag tagName, turning it off if it was on,
+* and turning it on if it was off
+* this operation could cause the currently displayed place to be filtered out,
+* in which case the 0th place in the new list will be selected
+**/
 function toggleTag(state: State, tagName: string): State {
     const newTags = state.tags.map(tag => {
         if (tag.name === tagName) {
@@ -104,21 +113,6 @@ function toggleTag(state: State, tagName: string): State {
     return nextState;
 }
 
-//function deactivateTag(state: State, tagName: string): State {
-//    const newTags = state.tags.map(tag => {
-//        if (tag.name === tagName) {
-//            return {
-//                name: tagName,
-//                active: false
-//            }
-//        } else {
-//            return tag;
-//        }
-//    });
-//
-//    return Object.assign({}, state, {tags: newTags});
-//}
-
 function selectPlace(state: State, nextPlaceIndex: number): State {
     const newState = Object.assign({}, state, {selectedPlaceIndex: nextPlaceIndex});
     return newState;
@@ -142,8 +136,15 @@ function getPlace(state: State, id: number): Place | undefined {
     return getPlaces(state)[id];
 }
 
+/**
+* change the sorting method to either alphabetical or chronological
+**/
 function updateSortingMethod(state: State, sortingMethod: SortingMethod): State {
 	const newState = Object.assign({}, state, { sortingMethod });
+    //when the sorting method is updated, ensure that the currently active
+    //place stays the same. This is accomplished by finding that place's (the place
+    //with the same id) index in the new list of visible places, and setting
+    //it into the selectedPlaceIndex property
 	if (state.selectedPlaceIndex !== undefined) {
 		const prevSelectedPlace = getPlace(state, state.selectedPlaceIndex);
 		if (prevSelectedPlace !== undefined) {
