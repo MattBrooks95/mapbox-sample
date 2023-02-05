@@ -5,7 +5,7 @@ import data from "../src/assets/data/places.json";
 
 import './App.css'
 import { Story } from './components/Story';
-import { activateTag, decSelectedPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State } from './logic/State';
+import { activateTag, decSelectedPlace, getPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State } from './logic/State';
 import { GpsInfo } from './components/GpsInfo';
 
 //specify VITE_MAPBOX_TOKEN in the .env file
@@ -15,8 +15,7 @@ mapboxgl.accessToken = mapboxToken;
 function App() {
 	const mapContainer = useRef(null);
 	const map = useRef<mapboxgl.Map | null>(null);
-	const [lng, setLng] = useState(-70.9);
-	const [lat, setLat] = useState(42.35);
+	const [center, setCenter] = useState<[number, number]>([-70.9, 42.35])
 	const [zoom, setZoom] = useState(9);
 
 	const debugState = true;
@@ -32,13 +31,29 @@ function App() {
 	}
 
 	useEffect(() => {
-		return;
+		if (state.selectedPlaceId === undefined) return;
+		console.log(`new selected place id:${state.selectedPlaceId}`);
+		const newPlace = getPlace(state, state.selectedPlaceId);
+		console.log(newPlace);
+		if (newPlace !== undefined && map.current !== null) {
+			setCenter([newPlace.longitude, newPlace.latitude]);
+		}
+	}, [state.selectedPlaceId]);
+
+	useEffect(() => {
+		if (map.current !== null) {
+			map.current.setCenter(center);
+		}
+	}, center);
+
+	useEffect(() => {
+		//return;
 		if (map.current !== null) return; // initialize map only once
 		if (mapContainer.current !== null) {
 			map.current = new mapboxgl.Map({
 				container: mapContainer.current,
 				style: 'mapbox://styles/mapbox/streets-v12',
-				center: [lng, lat],
+				center,
 				zoom: zoom
 			});
 		}
@@ -50,8 +65,8 @@ co				<div id="map" className="map" ref={mapContainer}>
 				</div>
 			</div>
 			<GpsInfo
-				longitude={lng}
-				latitude={lat}
+				longitude={center[0]}
+				latitude={center[1]}
 				zoom={zoom}
 				nextDisabled={isNextButtonDisabled()}
 				prevDisabled={isPrevButtonDisabled()}

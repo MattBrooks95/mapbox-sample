@@ -13,6 +13,7 @@ export {
     getActiveTags,
     incSelectedPlace,
     decSelectedPlace,
+    getPlace,
 }
 
 type State = {
@@ -91,14 +92,12 @@ function deactivateTag(state: State, tagName: string): State {
 }
 
 function selectPlace(state: State, placeId: number): State {
-    console.log('selected', placeId);
     const newState = Object.assign({}, state, {selectedPlaceId: placeId});
     console.log(newState);
     return newState;
 }
 
 function incSelectedPlace(state: State): State {
-    console.log('inc');
     if (state.selectedPlaceId === undefined) return state;
     if (state.selectedPlaceId + 1 >= state.origPlaces.length) return state;
     return selectPlace(state, state.selectedPlaceId + 1);
@@ -108,4 +107,8 @@ function decSelectedPlace(state: State): State {
     if (state.selectedPlaceId === undefined) return state;
     if (state.selectedPlaceId - 1 < 0) return state;
     return selectPlace(state, state.selectedPlaceId - 1);
+}
+
+function getPlace(state: State, id: number): Place | undefined {
+    return state.origPlaces.find(place => place.id === id);
 }

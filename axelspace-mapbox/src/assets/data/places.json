@@ -3,36 +3,50 @@
         {
             "name": "Lancaster, OH",
             "years": [1995],
-            "tags": ["childhood", "education"]
+            "tags": ["childhood", "education"],
+            "latitude": 39.71423,
+            "longitude": -82.60218
         },
         {
             "name": "Logan, OH",
             "years": [2006, 2014],
-            "tags": ["childhood", "education"]
+            "tags": ["childhood", "education"],
+            "latitude": 39.51698,
+            "longitude": -82.37548
         },
         {
             "name": "Athens, OH",
             "years": [2014, 2018],
-            "tags": ["education", "career"]
+            "tags": ["education", "career"],
+            "latitude": 39.32628,
+            "longitude": -82.10702
         }, {
             "name": "Hilliard, OH",
             "years": [2018, 2019],
-            "tags": ["adult", "career"]
+            "tags": ["adult", "career"],
+            "latitude": 40.00131,
+            "longitude": -83.10944
         },
         {
             "name": "Tokyo, Japan",
             "years": [2019],
-            "tags": ["adult", "career"]
+            "tags": ["adult", "career"],
+            "latitude": 35.72,
+            "longitude": 139.63
         },
         {
             "name": "Kyoto, Japan",
             "years": [2019, 2021],
-            "tags": ["adult", "career"]
+            "tags": ["adult", "career"],
+            "latitude": 34.99,
+            "longitude": 135.75
         },
         {
             "name": "Osaka, Japan",
             "years": [2021, 2023],
-            "tags": ["adult", "career"]
+            "tags": ["adult", "career"],
+            "latitude": 34.70,
+            "longitude": 135.48
         }
     ]
 }
