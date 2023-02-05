@@ -12,11 +12,13 @@ import { GpsInfo } from './components/GpsInfo';
 const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = mapboxToken;
 
+const defaultZoom = 13;
+
 function App() {
 	const mapContainer = useRef(null);
 	const map = useRef<mapboxgl.Map | null>(null);
 	const [center, setCenter] = useState<[number, number]>([-70.9, 42.35])
-	const [zoom, setZoom] = useState(9);
+	const [zoom, setZoom] = useState(defaultZoom);
 
 	const debugState = true;
 
@@ -30,6 +32,8 @@ function App() {
 		return state.selectedPlaceId === undefined || state.origPlaces.length === 0 || state.selectedPlaceId === 0;
 	}
 
+	//when the selected place id is updated, update the state variables
+	//for longitude, latitude and zoom to match the new location
 	useEffect(() => {
 		if (state.selectedPlaceId === undefined) return;
 		console.log(`new selected place id:${state.selectedPlaceId}`);
@@ -37,17 +41,21 @@ function App() {
 		console.log(newPlace);
 		if (newPlace !== undefined && map.current !== null) {
 			setCenter([newPlace.longitude, newPlace.latitude]);
+			setZoom(defaultZoom);
 		}
 	}, [state.selectedPlaceId]);
 
+	//when the longitude or latitude changes, propogate that change
+	//to the mapbox object
 	useEffect(() => {
 		if (map.current !== null) {
 			map.current.setCenter(center);
 		}
 	}, center);
 
+	//initialize the mapbox object with the reference to it's container
+	//DOM element
 	useEffect(() => {
-		//return;
 		if (map.current !== null) return; // initialize map only once
 		if (mapContainer.current !== null) {
 			map.current = new mapboxgl.Map({
@@ -58,10 +66,22 @@ function App() {
 			});
 		}
 	}, []);
+	//useEffect(() => {
+	//	console.log('on move');
+	//	if (map.current === null) return; // wait for map to initialize
+	//	console.log('map not null');
+	//	map.current.on('move', () => {
+	//		if (map.current === null) return;
+	//		const longitude = Number.parseFloat(map.current.getCenter().lng.toFixed(4));
+	//		const latitude = Number.parseFloat(map.current.getCenter().lat.toFixed(4));
+	//		setCenter([longitude, latitude]);
+	//		setZoom(Number.parseFloat(map.current.getZoom().toFixed(2)));
+	//	});
+	//});
 	return (
 		<div className="App">
 			<div className="map-container">
-co				<div id="map" className="map" ref={mapContainer}>
+				<div id="map" className="map" ref={mapContainer}>
 				</div>
 			</div>
 			<GpsInfo

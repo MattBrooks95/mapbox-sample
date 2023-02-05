@@ -5,6 +5,10 @@
     gap: 8px;
 }
 
+.place-label-container:hover {
+    cursor: pointer;
+}
+
 .selected-label-container {
     background-color: rgba(0, 128, 64, 1);
     border-radius: 5px;
