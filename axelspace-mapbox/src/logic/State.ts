@@ -14,12 +14,16 @@ export {
     incSelectedPlace,
     decSelectedPlace,
     getPlace,
+	updateSortingMethod,
 }
+
+type SortingMethod = "none" | "alphabetical" | "chronological";
 
 type State = {
     origPlaces: Place[];
     tags: Tag[];
     selectedPlaceIndex?: number;
+	sortingMethod: SortingMethod;
 }
 
 function initState(places: Partial<Place>[]): State {
@@ -43,12 +47,13 @@ function initState(places: Partial<Place>[]): State {
         origPlaces,
         tags,
         selectedPlaceIndex: origPlaces.length === 0 ? undefined : origPlaces[0].id,
+		sortingMethod: "none",
     }
 }
 
 function getPlaces(state: State): Place[] {
     const activeTags = getActiveTags(state).map(t => t.name);
-    return [...state.origPlaces].filter(place => {
+    const availablePlaces = [...state.origPlaces].filter(place => {
         const placeTags = place.tags;
         //an item is filtered out if it fails to contain even one of the currently active filtering tags
         //in that case, the number of active tags after the filter will not match the original number of active tags
@@ -56,6 +61,15 @@ function getPlaces(state: State): Place[] {
         //this is so that places are filtered out if they fail to have ALL the active tags
         return activeTags.filter(activeTag => placeTags.find(pt => pt === activeTag)).length === activeTags.length;
     });
+
+	if (state.sortingMethod === "alphabetical") {
+		availablePlaces.sort((a, b) => a.name.localeCompare(b.name, 'en'));
+	} else if (state.sortingMethod === "chronological") {
+		availablePlaces.sort((a, b) => a.years[0] - b.years[0]);
+	} else {
+	}
+
+	return availablePlaces;
 }
 
 function getTags(state: State): Tag[] {
@@ -126,4 +140,8 @@ function decSelectedPlace(state: State): State {
 
 function getPlace(state: State, id: number): Place | undefined {
     return getPlaces(state)[id];
+}
+
+function updateSortingMethod(state: State, sortingMethod: SortingMethod): State {
+	return Object.assign({}, state, { sortingMethod });
 }

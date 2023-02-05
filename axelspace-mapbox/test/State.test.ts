@@ -1,11 +1,11 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, beforeEach } from "vitest";
 
 //note that it would be better to have another copy of this data
 //that way I wouldn't have to update the tests when I update the actual data structure
 //but that's a corner I'm going to cut
 import data from "../src/assets/data/places.json";
 
-import { getActiveTags, getPlaces, initState, State, toggleTag } from "../src/logic/State";
+import { getActiveTags, getPlaces, initState, State, toggleTag, updateSortingMethod } from "../src/logic/State";
 
 function getState(): State {
     return initState(data.places);
@@ -52,7 +52,7 @@ describe("State", () => {
 
     test("tags filter places, several tags", () => {
         let state = getState();
-        expect(getPlaces(state).map(place => place.id).length).toBe(state.origPlaces.length);
+	    expect(getPlaces(state).map(place => place.id).length).toBe(state.origPlaces.length);
         state = toggleTag(state, "education");
         //add the education tag, to filter the list to include only places where I was going to school
         expect(getPlaces(state).map(place => place.name)).toEqual(["Logan, OH", "Athens, OH"]);
@@ -60,4 +60,66 @@ describe("State", () => {
         state = toggleTag(state, "childhood");
         expect(getPlaces(state).map(place => place.name)).toEqual(["Logan, OH"]);
     });
+
+	describe("sort", () => {
+		test("sort by year", () => {
+			const initialState = sortTestInitState();
+			const sortedByYear = updateSortingMethod(initialState, "chronological");
+			const sortedPlaceIds = getPlaces(sortedByYear).map(place => place.id);
+			const answerIds = [2, 3, 1]
+			//sorted list should have the same amount of elements
+			expect(sortedPlaceIds.length).toBe(answerIds.length);
+			//the ids of the elements should match the sorted answer
+			sortedPlaceIds.forEach((sortedId, idx) => expect(sortedId === answerIds[idx]));
+
+		});
+		test("sort by name", () => {
+			const initialState = sortTestInitState();
+			const sortedByName = updateSortingMethod(initialState, "alphabetical");
+			const sortedByNameIds = getPlaces(sortedByName).map(place => place.id);
+			expect(sortedByNameIds.length).toBe(sortedByNameIds.length);
+			const sortedByNameAnswer = [1, 3, 2];
+			sortedByNameIds.forEach((sortedId, idx) => expect(sortedId).toBe(sortedByNameAnswer[idx]));
+		});
+	});
 });
+
+//for some reason, I can't define this in the describe
+//block for the sorting tests, and then use it in each test
+//in Jest, I could do
+//let myVar: MyType;
+//beforeEach(() => { myVar = "foo"; });
+//test(() => expect(myVar).toBe("foo"))
+//but not in vitest
+function sortTestInitState(): State {
+	return {
+		origPlaces: [{
+			latitude: 0,
+			longitude: 0,
+			name: "a",
+			years: [2009, 2009],
+			tags: [],
+			description: "",
+			id: 1,
+		}, {
+			latitude: 0,
+			longitude: 0,
+			name: "c",
+			years: [1995],
+			tags: [],
+			description: "",
+			id: 2,
+		}, {
+			latitude: 0,
+			longitude: 0,
+			name: "b",
+			years: [1995, 1995],
+			tags: [],
+			description: "",
+			id: 3,
+		}],
+		selectedPlaceIndex: 0,
+		tags: [],
+		sortingMethod: "none"
+	};
+};
