@@ -143,5 +143,17 @@ function getPlace(state: State, id: number): Place | undefined {
 }
 
 function updateSortingMethod(state: State, sortingMethod: SortingMethod): State {
-	return Object.assign({}, state, { sortingMethod });
+	const newState = Object.assign({}, state, { sortingMethod });
+	if (state.selectedPlaceIndex !== undefined) {
+		const prevSelectedPlace = getPlace(state, state.selectedPlaceIndex);
+		if (prevSelectedPlace !== undefined) {
+			const selectedPlaceId = prevSelectedPlace.id;
+			const newStateSelectedIndex = getPlaces(newState)
+				.findIndex(place => place.id === selectedPlaceId);
+			newState.selectedPlaceIndex = newStateSelectedIndex !== -1
+				? newStateSelectedIndex
+				: undefined;
+		}
+	}
+	return newState;
 }
