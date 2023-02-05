@@ -21,7 +21,10 @@ function App() {
 	const [center, setCenter] = useState<[number, number]>([-70.9, 42.35])
 	const [zoom, setZoom] = useState(defaultZoom);
 
-	const debugState = true;
+	//can print the current application state to a text area
+	//on the map screen by setting the variable VITE_DEBUG_STATE
+	//to be true in the axelspace-mapbox/.env file
+	const debugState = import.meta.env.VITE_DEBUG_STATE;
 
 	const [state, setState] = useState<State>(initState(data.places));
 
@@ -73,6 +76,7 @@ function App() {
 			});
 		}
 	}, []);
+
 	//useEffect(() => {
 	//	console.log('on move');
 	//	if (map.current === null) return; // wait for map to initialize
@@ -85,6 +89,7 @@ function App() {
 	//		setZoom(Number.parseFloat(map.current.getZoom().toFixed(2)));
 	//	});
 	//});
+
 	const sortAlphabeticalButton = () => {
 		return (
 			<Button
