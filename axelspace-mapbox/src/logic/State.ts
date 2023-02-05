@@ -77,7 +77,17 @@ function toggleTag(state: State, tagName: string): State {
             return tag;
         }
     });
-    return Object.assign({}, state, { tags: newTags });
+    const nextState = Object.assign({}, state, { tags: newTags });
+    const isPlaceStillVisible = nextState.selectedPlaceIndex !== undefined && getPlace(nextState, nextState.selectedPlaceIndex) !== undefined;
+    if (!isPlaceStillVisible) {
+        const visiblePlaces = getPlaces(nextState);
+        if (visiblePlaces.length === 0) {
+            nextState.selectedPlaceIndex = undefined;
+        } else {
+            nextState.selectedPlaceIndex = 0;
+        }
+    }
+    return nextState;
 }
 
 //function deactivateTag(state: State, tagName: string): State {

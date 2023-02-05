@@ -49,7 +49,7 @@ function App() {
 			setCenter([newPlace.longitude, newPlace.latitude]);
 			setZoom(defaultZoom);
 		}
-	}, [state.selectedPlaceIndex]);
+	}, [state.selectedPlaceIndex, state.tags]);
 
 	//when the longitude or latitude changes, propogate that change
 	//to the mapbox object
