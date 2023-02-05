@@ -5,8 +5,9 @@ import data from "../src/assets/data/places.json";
 
 import './App.css'
 import { Story } from './components/Story';
-import { toggleTag, decSelectedPlace, getPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State } from './logic/State';
+import { toggleTag, decSelectedPlace, getPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State, updateSortingMethod } from './logic/State';
 import { GpsInfo } from './components/GpsInfo';
+import { Button } from '@mui/material';
 
 //specify VITE_MAPBOX_TOKEN in the .env file
 const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -84,6 +85,22 @@ function App() {
 	//		setZoom(Number.parseFloat(map.current.getZoom().toFixed(2)));
 	//	});
 	//});
+	const sortAlphabeticalButton = () => {
+		return (
+			<Button
+				variant={state.sortingMethod === "alphabetical" ? "outlined" : "contained"}
+				onClick={() => setState(updateSortingMethod(state, "alphabetical"))}
+			>ABC</Button>
+		);
+	}
+	const sortChronologicalButton = () => {
+		return (
+			<Button
+				variant={state.sortingMethod === "chronological" ? "outlined" : "contained"}
+				onClick={() => setState(updateSortingMethod(state, "chronological"))}
+				>DATE</Button>
+		);
+	}
 	return (
 		<div className="App">
 			<div className="map-container">
@@ -105,6 +122,10 @@ function App() {
 				onSelectPlace={(id: number) => setState(selectPlace(state, id))}
 				activePlaceIndex={state.selectedPlaceIndex}
 				onSelectTag={(name: string) => setState(toggleTag(state, name))}
+				sortingButtons={[
+					sortAlphabeticalButton(),
+					sortChronologicalButton(),
+				]}
 			></Story>
 			{debugState && <textarea style={{position: "absolute", top: 0, minHeight: "300px", minWidth: "400px"}}value={JSON.stringify(state)}></textarea>}
 		</div>

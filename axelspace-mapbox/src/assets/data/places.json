@@ -6,7 +6,7 @@
             "tags": ["childhood"],
             "latitude": 39.71423,
             "longitude": -82.60218,
-            "description": "I was born in Lancaster, but I don't remember it very much. I lived in the nearby town of Sugar Grove as well. I am excluding Lancaster from the list of places where I was going to school, for the sake of a test case. I actually did do Elementary school at a school called Berne Union."
+            "description": "I was born in Lancaster, but I don't remember it very much. I lived in the nearby town of Sugar Grove as well. I am excluding Lancaster from the list of places where I was going to school, for the sake of a test case. I actually did go to an elementary school called Berne Union."
         },
         {
             "name": "Logan, OH",
@@ -14,7 +14,7 @@
             "tags": ["childhood", "education"],
             "latitude": 39.51698,
             "longitude": -82.37548,
-            "description": "My family moved to Logan, Ohio because they had classes for 'gifted' students and I had good grades."
+            "description": "My family moved to Logan, Ohio because they had classes for 'gifted' students and I had good grades. I graduated from Logan-Hocking High School in 2014"
         },
         {
             "name": "Athens, OH",
