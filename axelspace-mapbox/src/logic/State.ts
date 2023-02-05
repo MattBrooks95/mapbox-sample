@@ -11,17 +11,19 @@ export {
     activateTag,
     selectPlace,
     getActiveTags,
+    incSelectedPlace,
+    decSelectedPlace,
 }
 
 type State = {
     origPlaces: Place[];
     tags: Tag[];
-    selectedPlace?: number;
+    selectedPlaceId?: number;
 }
 
 function initState(places: Partial<Place>[]): State {
     const origPlaces = places.map((place, placeIndex) => {
-        return Object.assign({}, place, { idx: placeIndex });
+        return Object.assign({}, place, { id: placeIndex });
     }) as Place[];
 
     //get all of the tags from the json data, put them into a set to remove
@@ -35,10 +37,11 @@ function initState(places: Partial<Place>[]): State {
                 active: false,
             }
         }) as Tag[];
+
     return {
         origPlaces,
         tags,
-        selectedPlace: undefined,
+        selectedPlaceId: origPlaces.length === 0 ? undefined : origPlaces[0].id,
     }
 }
 
@@ -88,5 +91,21 @@ function deactivateTag(state: State, tagName: string): State {
 }
 
 function selectPlace(state: State, placeId: number): State {
-    return Object.assign({}, state, {selectedPlaceId: placeId});
+    console.log('selected', placeId);
+    const newState = Object.assign({}, state, {selectedPlaceId: placeId});
+    console.log(newState);
+    return newState;
+}
+
+function incSelectedPlace(state: State): State {
+    console.log('inc');
+    if (state.selectedPlaceId === undefined) return state;
+    if (state.selectedPlaceId + 1 >= state.origPlaces.length) return state;
+    return selectPlace(state, state.selectedPlaceId + 1);
+}
+
+function decSelectedPlace(state: State): State {
+    if (state.selectedPlaceId === undefined) return state;
+    if (state.selectedPlaceId - 1 < 0) return state;
+    return selectPlace(state, state.selectedPlaceId - 1);
 }

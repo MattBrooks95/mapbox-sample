@@ -7,6 +7,8 @@ type GpsInfoProps = {
     zoom: number;
     prevDisabled: boolean;
     nextDisabled: boolean;
+    onNext: () => void;
+    onPrev: () => void;
 }
 
 export function GpsInfo(props: GpsInfoProps) {
@@ -16,6 +18,7 @@ export function GpsInfo(props: GpsInfoProps) {
                 <Button
                     variant="contained"
                     disabled={props.prevDisabled}
+                    onClick={() => props.onPrev()}
                 >Prev</Button>
                 <div>longitude:{props.longitude}</div>
                 <div>latitude:{props.latitude}</div>
@@ -23,6 +26,7 @@ export function GpsInfo(props: GpsInfoProps) {
                 <Button
                     variant="contained"
                     disabled={props.nextDisabled}
+                    onClick={() => props.onNext()}
                 >Next</Button>
             </div>
         </div>

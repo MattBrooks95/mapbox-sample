@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
 import "./PlaceLabel.css"
 type PlaceLabelProps = {
     name: string;
-    id: number;
+    placeId: number;
     years?: number[];
     onClick: (id: number) => void;
+    isSelected: boolean;
 }
 
 function displayYears(years: number[] | undefined): string | undefined {
@@ -15,10 +15,17 @@ function displayYears(years: number[] | undefined): string | undefined {
 
 export function PlaceLabel(props: PlaceLabelProps) {
     const handleClick: React.MouseEventHandler = (_: React.MouseEvent) => {
-        props.onClick(props.id);
+        props.onClick(props.placeId);
     };
     const displayYearsResult = displayYears(props.years);
-    return (<div className="place-label-container" onClick={handleClick}>
+    const getClasses = () => {
+        const classes = [
+            "place-label-container"
+        ];
+        if (props.isSelected) classes.push("selected-label-container");
+        return classes.join(" ");
+    }
+    return (<div className={getClasses()} onClick={handleClick}>
         <div>{props.name}</div>
         {displayYearsResult !== undefined ? <div>{displayYearsResult}</div> : undefined}
     </div>);

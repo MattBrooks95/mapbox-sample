@@ -24,15 +24,17 @@ function Story(props: StoryProps) {
             <div className="places-container">
                 {props.places.map((place) => {
                     return (<PlaceLabel
+                        key={place.id}
                         years={place.years}
                         name={place.name}
                         onClick={(id) => props.onSelectPlace(id)}
-                        id={place.id}
+                        placeId={place.id}
+                        isSelected={props.activePlaceIndex === place.id}
                     ></PlaceLabel>);
                 })}
             </div>
             <div className="tags-container">
-            {props.tags.map(t => <button disabled={t.active}>{t.name}</button>)}
+            {props.tags.map(t => <button disabled={t.active} key={t.name}>{t.name}</button>)}
             </div>
             {<textarea className="description-box"
                 value={activePlace !== undefined ? activePlace.description : ""}

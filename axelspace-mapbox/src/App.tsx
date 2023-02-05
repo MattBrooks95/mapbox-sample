@@ -5,8 +5,7 @@ import data from "../src/assets/data/places.json";
 
 import './App.css'
 import { Story } from './components/Story';
-import { activateTag, getPlaces, getTags, initState, selectPlace, State } from './logic/State';
-import Button from '@mui/material/Button/Button';
+import { activateTag, decSelectedPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State } from './logic/State';
 import { GpsInfo } from './components/GpsInfo';
 
 //specify VITE_MAPBOX_TOKEN in the .env file
@@ -20,7 +19,17 @@ function App() {
 	const [lat, setLat] = useState(42.35);
 	const [zoom, setZoom] = useState(9);
 
+	const debugState = true;
+
 	const [state, setState] = useState<State>(initState(data.places));
+
+	const isNextButtonDisabled = () => {
+		return state.selectedPlaceId === undefined || state.origPlaces.length === 0 || state.selectedPlaceId >= state.origPlaces.length - 1;
+	}
+
+	const isPrevButtonDisabled = () => {
+		return state.selectedPlaceId === undefined || state.origPlaces.length === 0 || state.selectedPlaceId === 0;
+	}
 
 	useEffect(() => {
 		return;
@@ -37,22 +46,25 @@ function App() {
 	return (
 		<div className="App">
 			<div className="map-container">
-				<GpsInfo
-					longitude={lng}
-					latitude={lat}
-					zoom={zoom}
-					nextDisabled={false}
-					prevDisabled={false}
-				></GpsInfo>
-				<div id="map" className="map" ref={mapContainer}>
+co				<div id="map" className="map" ref={mapContainer}>
 				</div>
 			</div>
+			<GpsInfo
+				longitude={lng}
+				latitude={lat}
+				zoom={zoom}
+				nextDisabled={isNextButtonDisabled()}
+				prevDisabled={isPrevButtonDisabled()}
+				onNext={() => setState(incSelectedPlace(state))}
+				onPrev={() => setState(decSelectedPlace(state))}
+			></GpsInfo>
 			<Story
 				places={getPlaces(state)}
 				tags={getTags(state)}
 				onSelectPlace={(id: number) => setState(selectPlace(state, id))}
-				activePlaceIndex={state.selectedPlace}
+				activePlaceIndex={state.selectedPlaceId}
 			></Story>
+			{debugState && <textarea style={{position: "absolute", top: 0, minHeight: "300px", minWidth: "400px"}}value={JSON.stringify(state)}></textarea>}
 		</div>
 	)
 }
