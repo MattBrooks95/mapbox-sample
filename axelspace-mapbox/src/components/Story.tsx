@@ -30,7 +30,7 @@ function Story(props: StoryProps) {
                         name={place.name}
                         onClick={(id) => props.onSelectPlace(id)}
                         placeId={place.id}
-                        isSelected={props.activePlaceIndex === place.id}
+                        isSelected={props.activePlaceIndex !== undefined && props.places[props.activePlaceIndex].name === place.name}
                     ></PlaceLabel>);
                 })}
             </div>

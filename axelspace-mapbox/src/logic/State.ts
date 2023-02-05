@@ -125,5 +125,5 @@ function decSelectedPlace(state: State): State {
 }
 
 function getPlace(state: State, id: number): Place | undefined {
-    return getPlaces(state).find(place => place.id === id);
+    return getPlaces(state)[id];
 }

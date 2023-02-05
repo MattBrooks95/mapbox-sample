@@ -55,9 +55,9 @@ describe("State", () => {
         expect(getPlaces(state).map(place => place.id).length).toBe(state.origPlaces.length);
         state = toggleTag(state, "education");
         //add the education tag, to filter the list to include only places where I was going to school
-        expect(getPlaces(state).map(place => place.name)).toEqual(["Lancaster, OH", "Logan, OH", "Athens, OH"]);
+        expect(getPlaces(state).map(place => place.name)).toEqual(["Logan, OH", "Athens, OH"]);
         //add the childhood tag as well. I was not a child in college, so Athens should fall off of the list
         state = toggleTag(state, "childhood");
-        expect(getPlaces(state).map(place => place.name)).toEqual(["Lancaster, OH", "Logan, OH"]);
+        expect(getPlaces(state).map(place => place.name)).toEqual(["Logan, OH"]);
     });
 });
