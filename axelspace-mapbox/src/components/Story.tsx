@@ -3,8 +3,7 @@ import { PlaceLabel } from "./PlaceLabel";
 
 import "./Story.css"
 import "../shared.css"
-import { Button } from "@mui/material";
-import { ReactChild, ReactComponentElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 export {
     Story
@@ -29,12 +28,12 @@ function Story(props: StoryProps) {
 				{props.sortingButtons}
 			</div>
             <div className="places-container">
-                {props.places.map((place) => {
+                {props.places.map((place, placeIdx) => {
                     return (<PlaceLabel
                         key={place.id}
                         years={place.years}
                         name={place.name}
-                        onClick={(id) => props.onSelectPlace(id)}
+                        onClick={() => props.onSelectPlace(placeIdx)}
                         placeId={place.id}
                         isSelected={props.activePlaceIndex !== undefined && props.places[props.activePlaceIndex].name === place.name}
                     ></PlaceLabel>);
