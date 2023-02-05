@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 
 import data from "../src/assets/data/places.json";
 
-import { activateTag, deactivateTag, getActiveTags, initState, State } from "../src/logic/State";
+import { getActiveTags, initState, State, toggleTag } from "../src/logic/State";
 
 function getState(): State {
     return initState(data.places);
@@ -23,18 +23,18 @@ describe("State", () => {
         const state = getState();
         expect(getActiveTags(state)).toEqual([]);
 
-        const stateChildhood = activateTag(state, "childhood");
+        const stateChildhood = toggleTag(state, "childhood");
         expect(getActiveTags(stateChildhood).map(t => t.name)).toEqual(["childhood"]);
-        const stateCareer = activateTag(stateChildhood,"career");
+        const stateCareer = toggleTag(stateChildhood,"career");
         expect(getActiveTags(stateCareer).map(t => t.name)).toEqual(["childhood", "career"]);
     });
 
     test("set a tag to be inactive", () => {
         const state = getState();
         const testTag = "childhood";
-        const withActiveTag = activateTag(state, testTag);
+        const withActiveTag = toggleTag(state, testTag);
         expect(getActiveTags(withActiveTag).map(t => t.name)).toEqual([testTag]);
-        const noActiveTags = deactivateTag(withActiveTag, testTag);
+        const noActiveTags = toggleTag(withActiveTag, testTag);
         expect(getActiveTags(noActiveTags).map(t => t.name)).toEqual([]);
     });
 });

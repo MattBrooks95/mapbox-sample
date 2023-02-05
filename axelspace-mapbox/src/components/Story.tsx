@@ -13,6 +13,7 @@ type StoryProps = {
     tags: Tag[];
     activePlaceIndex?: number;
     onSelectPlace: (id: number) => void;
+    onSelectTag: (name: string) => void;
 };
 
 function Story(props: StoryProps) {
@@ -34,7 +35,7 @@ function Story(props: StoryProps) {
                 })}
             </div>
             <div className="tags-container">
-            {props.tags.map(t => <button disabled={t.active} key={t.name}>{t.name}</button>)}
+            {props.tags.map(t => <button className={t.active ? "" : "disabled-tag"} key={t.name} onClick={() => props.onSelectTag(t.name)}>{t.name}</button>)}
             </div>
             {<textarea className="description-box"
                 value={activePlace !== undefined ? activePlace.description : ""}

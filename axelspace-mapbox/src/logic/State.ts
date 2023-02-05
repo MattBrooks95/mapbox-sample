@@ -7,8 +7,8 @@ export {
     initState,
     getPlaces,
     getTags,
-    deactivateTag,
-    activateTag,
+//    deactivateTag,
+    toggleTag,
     selectPlace,
     getActiveTags,
     incSelectedPlace,
@@ -62,12 +62,12 @@ function getActiveTags(state: State): Tag[] {
     return getTags(state).filter(tag => tag.active);
 }
 
-function activateTag(state: State, tagName: string): State {
+function toggleTag(state: State, tagName: string): State {
     const newTags = state.tags.map(tag => {
         if (tag.name === tagName) {
             return {
                 name: tagName,
-                active: true
+                active: !tag.active
             }
         } else {
             return tag;
@@ -76,24 +76,23 @@ function activateTag(state: State, tagName: string): State {
     return Object.assign({}, state, { tags: newTags });
 }
 
-function deactivateTag(state: State, tagName: string): State {
-    const newTags = state.tags.map(tag => {
-        if (tag.name === tagName) {
-            return {
-                name: tagName,
-                active: false
-            }
-        } else {
-            return tag;
-        }
-    });
-
-    return Object.assign({}, state, {tags: newTags});
-}
+//function deactivateTag(state: State, tagName: string): State {
+//    const newTags = state.tags.map(tag => {
+//        if (tag.name === tagName) {
+//            return {
+//                name: tagName,
+//                active: false
+//            }
+//        } else {
+//            return tag;
+//        }
+//    });
+//
+//    return Object.assign({}, state, {tags: newTags});
+//}
 
 function selectPlace(state: State, placeId: number): State {
     const newState = Object.assign({}, state, {selectedPlaceId: placeId});
-    console.log(newState);
     return newState;
 }
 

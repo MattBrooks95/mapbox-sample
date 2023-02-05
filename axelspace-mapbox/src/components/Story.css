@@ -30,3 +30,12 @@
     flex-direction: row;
     gap: 4px;
 }
+
+.tags-container > * {
+    opacity: 0.25;
+    cursor: pointer;
+}
+
+.disabled-tag {
+    opacity: 1;
+}

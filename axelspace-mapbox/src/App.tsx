@@ -5,7 +5,7 @@ import data from "../src/assets/data/places.json";
 
 import './App.css'
 import { Story } from './components/Story';
-import { activateTag, decSelectedPlace, getPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State } from './logic/State';
+import { toggleTag, decSelectedPlace, getPlace, getPlaces, getTags, incSelectedPlace, initState, selectPlace, State } from './logic/State';
 import { GpsInfo } from './components/GpsInfo';
 
 //specify VITE_MAPBOX_TOKEN in the .env file
@@ -98,6 +98,7 @@ function App() {
 				tags={getTags(state)}
 				onSelectPlace={(id: number) => setState(selectPlace(state, id))}
 				activePlaceIndex={state.selectedPlaceId}
+				onSelectTag={(name: string) => setState(toggleTag(state, name))}
 			></Story>
 			{debugState && <textarea style={{position: "absolute", top: 0, minHeight: "300px", minWidth: "400px"}}value={JSON.stringify(state)}></textarea>}
 		</div>
