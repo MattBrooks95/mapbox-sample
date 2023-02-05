@@ -47,10 +47,14 @@ function initState(places: Partial<Place>[]): State {
 }
 
 function getPlaces(state: State): Place[] {
-    const activeTags = new Set(getActiveTags(state).map(t => t.name));
+    const activeTags = getActiveTags(state).map(t => t.name);
     return [...state.origPlaces].filter(place => {
         const placeTags = place.tags;
-        return placeTags.filter(placeTag => !activeTags.has(placeTag)).length !== 0;
+        //an item is filtered out if it fails to contain even one of the currently active filtering tags
+        //in that case, the number of active tags after the filter will not match the original number of active tags
+        //and the place will be filtered out
+        //this is so that places are filtered out if they fail to have ALL the active tags
+        return activeTags.filter(activeTag => placeTags.find(pt => pt === activeTag)).length === activeTags.length;
     });
 }
 
