@@ -86,8 +86,6 @@ function getActiveTags(state: State): Tag[] {
 /**
 * toggle tag tagName, turning it off if it was on,
 * and turning it on if it was off
-* this operation could cause the currently displayed place to be filtered out,
-* in which case the 0th place in the new list will be selected
 **/
 function toggleTag(state: State, tagName: string): State {
     const newTags = state.tags.map(tag => {
@@ -101,15 +99,7 @@ function toggleTag(state: State, tagName: string): State {
         }
     });
     const nextState = Object.assign({}, state, { tags: newTags });
-    const isPlaceStillVisible = nextState.selectedPlaceIndex !== undefined && getPlace(nextState, nextState.selectedPlaceIndex) !== undefined;
-    if (!isPlaceStillVisible) {
-        const visiblePlaces = getPlaces(nextState);
-        if (visiblePlaces.length === 0) {
-            nextState.selectedPlaceIndex = undefined;
-        } else {
-            nextState.selectedPlaceIndex = 0;
-        }
-    }
+	ensureSelectedItemStaysSelected(state, nextState);
     return nextState;
 }
 
@@ -145,16 +135,43 @@ function updateSortingMethod(state: State, sortingMethod: SortingMethod): State 
     //place stays the same. This is accomplished by finding that place's (the place
     //with the same id) index in the new list of visible places, and setting
     //it into the selectedPlaceIndex property
-	if (state.selectedPlaceIndex !== undefined) {
-		const prevSelectedPlace = getPlace(state, state.selectedPlaceIndex);
+	ensureSelectedItemStaysSelected(state, newState);
+	//if (state.selectedPlaceIndex !== undefined) {
+	//	const prevSelectedPlace = getPlace(state, state.selectedPlaceIndex);
+	//	if (prevSelectedPlace !== undefined) {
+	//		const selectedPlaceId = prevSelectedPlace.id;
+	//		const newStateSelectedIndex = getPlaces(newState)
+	//			.findIndex(place => place.id === selectedPlaceId);
+	//		newState.selectedPlaceIndex = newStateSelectedIndex !== -1
+	//			? newStateSelectedIndex
+	//			: undefined;
+	//	}
+	//}
+	return newState;
+}
+
+/**
+* when the filtering tags or the sorting is changed, this function will
+* ensure that the selected item stays selected, if possible
+* if the previous item could not be re-selected, then it will select the first item
+* in the new list of available places
+* elsewise, the selected index is set to undefiend
+**/
+function ensureSelectedItemStaysSelected(prevState: State, nextState: State): void {
+	if (prevState.selectedPlaceIndex !== undefined) {
+		const prevSelectedPlace = getPlace(prevState, prevState.selectedPlaceIndex);
 		if (prevSelectedPlace !== undefined) {
 			const selectedPlaceId = prevSelectedPlace.id;
-			const newStateSelectedIndex = getPlaces(newState)
+			const newVisiblePlaces = getPlaces(nextState);
+			const newStateSelectedIndex = newVisiblePlaces
 				.findIndex(place => place.id === selectedPlaceId);
-			newState.selectedPlaceIndex = newStateSelectedIndex !== -1
-				? newStateSelectedIndex
-				: undefined;
+			if (newStateSelectedIndex !== -1) {
+				nextState.selectedPlaceIndex = newStateSelectedIndex;
+			} else {
+				nextState.selectedPlaceIndex = newVisiblePlaces.length > 0
+					? 0
+					: undefined;
+			}
 		}
 	}
-	return newState;
 }
